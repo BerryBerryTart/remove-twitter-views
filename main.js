@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         I HATE YOU VIEWS
 // @namespace    http://tampermonkey.net/
-// @version      1.02
+// @version      1.03
 // @description  go away you little bitch
 // @author       BEWWY
 // @match        https://twitter.com/*
@@ -11,7 +11,7 @@
 // ==/UserScript==
 
 let enableOnScrollCall = true;
-const GENERAL_THROTTLE_LIMIT = 1400;
+const GENERAL_THROTTLE_LIMIT = 400;
 const THROTTLE_LIMIT = 100;
 
 (function() {

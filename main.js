@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         I HATE YOU VIEWS
 // @namespace    http://tampermonkey.net/
-// @version      1.03
+// @version      1.05
 // @description  go away you little bitch
 // @author       BEWWY
 // @match        https://twitter.com/*
@@ -45,7 +45,6 @@ function removeViewsFromDOM(){
                 if(!e.childNodes.length){
                     e.remove();
                 }
-                console.log(e);
             }
         );
     }

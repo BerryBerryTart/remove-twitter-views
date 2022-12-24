@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         I HATE YOU VIEWS
 // @namespace    http://tampermonkey.net/
-// @version      1.06
+// @version      1.07
 // @description  go away you little bitch
 // @author       BEWWY
 // @match        https://twitter.com/*
@@ -35,7 +35,7 @@ function removeViewsFromDOM() {
             let a = e.parentNode;
             let b = a.parentNode; //why twitter
             cleanupList.push(b);
-            if (e.role !== "menuitem") {
+            if (e.role != "menuitem") {
                 a.remove();
             }
         }

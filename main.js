@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name         I HATE YOU VIEWS
 // @namespace    http://tampermonkey.net/
-// @version      1.09
+// @version      1.10
 // @description  go away you little bitch
 // @author       BEWWY
 // @match        *://*.twitter.com/*
-// @match        https://twitter.com/*/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // ==/UserScript==

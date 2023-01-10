@@ -1,21 +1,23 @@
 // ==UserScript==
 // @name         I HATE YOU VIEWS
 // @namespace    http://tampermonkey.net/
-// @version      1.08
+// @version      1.09
 // @description  go away you little bitch
 // @author       BEWWY
-// @match        https://twitter.com/*
+// @match        *://*.twitter.com/*
 // @match        https://twitter.com/*/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // ==/UserScript==
 
 let enableOnScrollCall = true;
-const GENERAL_THROTTLE_LIMIT = 400;
+const GENERAL_THROTTLE_LIMIT = 500;
 const THROTTLE_LIMIT = 100;
+const VIEWS_XPATH = '//span[span[span[span[text()="Views"]]]]';
 
 (function () {
     setInterval(removeViewsFromDOM, GENERAL_THROTTLE_LIMIT);
+    setInterval(auxRemovewViews, GENERAL_THROTTLE_LIMIT);
 })();
 
 window.addEventListener('scroll', function (e) {
@@ -51,3 +53,14 @@ function removeViewsFromDOM() {
         );
     }
 }
+
+function auxRemovewViews(){
+    let auxList = getElementByXpath(VIEWS_XPATH);
+    if(auxList){
+        auxList.remove();
+    }    
+}
+
+function getElementByXpath(path) {
+    return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+  }  

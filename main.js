@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         I HATE YOU VIEWS
 // @namespace    http://tampermonkey.net/
-// @version      1.11
+// @version      1.12
 // @description  go away you little bitch
 // @author       BEWWY
 // @match        *://*.twitter.com/*
@@ -10,22 +10,15 @@
 // ==/UserScript==
 
 let enableOnScrollCall = true;
-let mainInterval;
-let auxInterval;
+let mainInterval = undefined;
+let auxInterval = undefined;
 const GENERAL_THROTTLE_LIMIT = 500;
 const THROTTLE_LIMIT = 200;
 const VIEWS_XPATH = '//span[span[span[span[text()="Views"]]]]';
 
-(function () {
-    //JUST SO this isn't running constantly when tab isn't focused
-    if (document.hidden){
-        clearInterval(mainInterval);
-        clearInterval(auxInterval);
-    } else {
-        mainInterval = setInterval(removeViewsFromDOM, GENERAL_THROTTLE_LIMIT);
-        auxInterval = setInterval(auxRemovewViews, GENERAL_THROTTLE_LIMIT);
-    }
-})();
+window.addEventListener('DOMContentLoaded', () => initiateListeners());
+window.addEventListener('blur', () => clearListeners());
+window.addEventListener('focus', () => initiateListeners());
 
 window.addEventListener('scroll', function (e) {
     if (!enableOnScrollCall) return;
@@ -33,6 +26,18 @@ window.addEventListener('scroll', function (e) {
     removeViewsFromDOM();
     setTimeout(function () { enableOnScrollCall = true }, THROTTLE_LIMIT);
 });
+
+function clearListeners(){
+    clearInterval(mainInterval);
+    clearInterval(auxInterval);
+    mainInterval = undefined;
+    auxInterval = undefined;    
+}
+
+function initiateListeners(){
+    if (!mainInterval) mainInterval = setInterval(removeViewsFromDOM, GENERAL_THROTTLE_LIMIT);
+    if (!auxInterval) auxInterval = setInterval(auxRemovewViews, GENERAL_THROTTLE_LIMIT);
+}
 
 function removeViewsFromDOM() {
     let removalList = document.querySelectorAll("a[href$='analytics']");

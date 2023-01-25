@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         I HATE YOU VIEWS
 // @namespace    http://tampermonkey.net/
-// @version      1.10
+// @version      1.11
 // @description  go away you little bitch
 // @author       BEWWY
 // @match        *://*.twitter.com/*
@@ -10,13 +10,21 @@
 // ==/UserScript==
 
 let enableOnScrollCall = true;
+let mainInterval;
+let auxInterval;
 const GENERAL_THROTTLE_LIMIT = 500;
-const THROTTLE_LIMIT = 100;
+const THROTTLE_LIMIT = 200;
 const VIEWS_XPATH = '//span[span[span[span[text()="Views"]]]]';
 
 (function () {
-    setInterval(removeViewsFromDOM, GENERAL_THROTTLE_LIMIT);
-    setInterval(auxRemovewViews, GENERAL_THROTTLE_LIMIT);
+    //JUST SO this isn't running constantly when tab isn't focused
+    if (document.hidden){
+        clearInterval(mainInterval);
+        clearInterval(auxInterval);
+    } else {
+        mainInterval = setInterval(removeViewsFromDOM, GENERAL_THROTTLE_LIMIT);
+        auxInterval = setInterval(auxRemovewViews, GENERAL_THROTTLE_LIMIT);
+    }
 })();
 
 window.addEventListener('scroll', function (e) {
@@ -53,13 +61,13 @@ function removeViewsFromDOM() {
     }
 }
 
-function auxRemovewViews(){
+function auxRemovewViews() {
     let auxList = getElementByXpath(VIEWS_XPATH);
-    if(auxList){
+    if (auxList) {
         auxList.remove();
-    }    
+    }
 }
 
 function getElementByXpath(path) {
     return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-  }  
+}  
